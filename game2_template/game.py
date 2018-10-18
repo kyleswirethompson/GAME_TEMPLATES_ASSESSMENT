@@ -262,13 +262,14 @@ def execute_go(direction):
         print("You cannot go there.")
 
         
-def execute_take(item_id ):
+def execute_take(item_id):
     """This function takes an item_id as an argument and moves this item from the
     list of items in the current room to the player's inventory. However, if
     there is no such item in the room, this function prints
     "You cannot take that."
     """
     item_weight = 0
+    inv_weight = 0
    
     if item_id == "id":
         item_weight = 0.1
@@ -283,13 +284,27 @@ def execute_take(item_id ):
     if item_id == "handbook":
         item_weight = 0.6
 
+    for i in inventory:
+        if i == item_id:
+            inv_weight = inv_weight + 0.1
+        if i == item_laptop:
+            inv_weight = inv_weight + 1
+        if i == item_money:
+            inv_weight = inv_weight + 0.4
+        if i == item_biscuits:
+            inv_weight = inv_weight + 0.2
+        if i == item_pen :
+            inv_weight = inv_weight + 0.1  
+        if i == item_handbook :
+            inv_weight = inv_weight + 0.6
+
         
     x = 0
     y= -1    
     for i in current_room["items"]:
         y = y + 1
         if item_id == i["id"]:
-            if item_weight + inventory_weight > 1.5:
+            if item_weight + inv_weight > 1.5:
                 print("YOU CANNOT PICK UP THIS ITEM, IT IS TOO HEAVY!!!!!")
                 x = 1
             else: 
@@ -397,6 +412,7 @@ def move(exits, direction):
 
 def print_inventory_weight(inventory):
     inventory_weight = 0
+    
 
     for i in inventory:
         if i == item_id:
@@ -446,6 +462,9 @@ def check_win(room):
         print("congratulations, you have returned all the items to reception")
         print("YOU WIN!!!!!!!!!!!!!!!!")
         return True
+    else:
+        return False
+
 
 
 
@@ -476,6 +495,7 @@ def main():
 
         if check_win(rooms["Reception"]) == True:
             break
+         
         
         print("##############################################################################################################")
 
